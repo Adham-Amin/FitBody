@@ -26,14 +26,12 @@ class RegisterView extends StatelessWidget {
         message = 'The account already exists for that email.';
       }
       ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),);
-    } catch (e) {
-      print(e);
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
-    
   }
 
   @override

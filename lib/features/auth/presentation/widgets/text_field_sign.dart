@@ -10,6 +10,7 @@ class TextFieldSign extends StatelessWidget {
     this.suffixIcon,
     required this.keyboardType,
     this.onSavevd,
+    this.obscureText,
   });
 
   final void Function(String?)? onSavevd;
@@ -18,6 +19,7 @@ class TextFieldSign extends StatelessWidget {
   final double screenHeight;
   final String hintText;
   final Widget? suffixIcon;
+  final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class TextFieldSign extends StatelessWidget {
       cursorColor: Colors.black,
       style: Styles.textLight16(context).copyWith(color: Colors.black),
       keyboardType: keyboardType,
+      obscureText: obscureText ?? false,
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,

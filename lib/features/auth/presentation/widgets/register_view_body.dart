@@ -28,7 +28,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       widget.onTap(email, password, name, context);
-      GoRouter.of(context).push(AppRouter.loginView);
     }
   }
 
