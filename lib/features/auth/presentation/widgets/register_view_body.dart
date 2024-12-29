@@ -1,4 +1,5 @@
 import 'package:fitbody/constants.dart';
+import 'package:fitbody/core/function/auth.dart';
 import 'package:fitbody/core/utils/app_router.dart';
 import 'package:fitbody/core/utils/styles.dart';
 import 'package:fitbody/core/widgets/custom_button.dart';
@@ -9,9 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class RegisterViewBody extends StatefulWidget {
-  const RegisterViewBody({super.key, required this.onTap});
+  const RegisterViewBody({super.key});
 
-  final Function onTap;
 
   @override
   State<RegisterViewBody> createState() => _RegisterViewBodyState();
@@ -22,12 +22,13 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
   String email = '';
   String password = '';
   String name = '';
+  int age = 0;
 
   void submitAuth() {
     FocusScope.of(context).unfocus();
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      widget.onTap(email, password, name, context);
+      authentication(isLogin: false, email: email, pass: password, ctx: context, name: name, age: age);
     }
   }
 

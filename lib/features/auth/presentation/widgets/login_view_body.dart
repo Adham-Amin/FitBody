@@ -1,5 +1,5 @@
 import 'package:fitbody/constants.dart';
-import 'package:fitbody/core/utils/app_router.dart';
+import 'package:fitbody/core/function/auth.dart';
 import 'package:fitbody/core/utils/styles.dart';
 import 'package:fitbody/core/widgets/custom_button.dart';
 import 'package:fitbody/core/widgets/skip_button.dart';
@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginViewBody extends StatefulWidget {
-  const LoginViewBody({super.key, required this.onTap});
-  final Function onTap;
+  const LoginViewBody({super.key});
   @override
   State<LoginViewBody> createState() => _LoginViewBodyState();
 }
@@ -25,7 +24,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     FocusScope.of(context).unfocus();
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      widget.onTap(email, password, context);
+      authentication(isLogin: true, email: email, pass: password, ctx: context, name: null, age: null);
     }
   }
   @override
