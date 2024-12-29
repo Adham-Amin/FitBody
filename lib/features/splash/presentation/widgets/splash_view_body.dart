@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fitbody/core/utils/app_router.dart';
 import 'package:fitbody/core/utils/assets_data.dart';
 import 'package:fitbody/features/splash/presentation/widgets/sliding_text.dart';
@@ -50,7 +52,11 @@ class _SplashViewBodyState extends State<SplashViewBody>
 
   void navigateToHome() {
     Future.delayed(const Duration(seconds: 3), () {
-      GoRouter.of(context).push(AppRouter.regiterView);
+      if(FirebaseAuth.instance.currentUser != null) {
+        GoRouter.of(context).go(AppRouter.homeView);
+      } else {
+        GoRouter.of(context).go(AppRouter.regiterView);
+      }
     });
   }
 
