@@ -33,8 +33,9 @@ Future<void> authentication({
           .doc(user.user!.uid)
           .set({
         'Name': name,
-        'Email': email,
         'Age': age,
+        'Email': email,
+        'Password': pass,
       });
     }
 

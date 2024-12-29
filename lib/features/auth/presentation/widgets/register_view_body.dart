@@ -102,6 +102,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                 height: 12 * screenHeight,
               ),
               TextFieldSign(
+                onSavevd: (p0) => age = int.parse(p0!),
                 keyboardType: TextInputType.number,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
