@@ -9,8 +9,10 @@ class TextFieldSign extends StatelessWidget {
     required this.hintText,
     this.suffixIcon,
     required this.keyboardType,
+    this.onSavevd,
   });
 
+  final void Function(String?)? onSavevd;
   final TextInputType keyboardType;
   final double screenWidth;
   final double screenHeight;
@@ -19,7 +21,9 @@ class TextFieldSign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (value) => value!.isEmpty ? 'Enter your $hintText' : null,
+      onSaved: onSavevd,
       cursorColor: Colors.black,
       style: Styles.textLight16(context).copyWith(color: Colors.black),
       keyboardType: keyboardType,
