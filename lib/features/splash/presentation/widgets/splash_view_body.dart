@@ -14,19 +14,19 @@ class SplashViewBody extends StatefulWidget {
 
 class _SplashViewBodyState extends State<SplashViewBody>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
-  late final Animation<Offset> _slidingAnimation;
+  late AnimationController animationController;
+  late Animation<Offset> slidingAnimation;
 
   @override
   void initState() {
+    slidingAnimate();
+    navigateToHome(context);
     super.initState();
-    _initSlidingAnimation();
-    _listenToUserChanges(context);
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -41,30 +41,32 @@ class _SplashViewBodyState extends State<SplashViewBody>
           height: 75,
           width: 75,
         ),
-        const SizedBox(height: 12),
-        SlidingText(slidingAnimation: _slidingAnimation),
+        const SizedBox(
+          height: 12,
+        ),
+        SlidingText(slidingAnimation: slidingAnimation),
       ],
     );
   }
 
-  void _listenToUserChanges(context) {
-    FirebaseAuth.instance.userChanges().listen((User? user) {
-      final route = user != null ? AppRouter.homeView : AppRouter.regiterView;
-      Future.delayed(const Duration(seconds: 3), () {
-        GoRouter.of(context).go(route);
-      });
+  void navigateToHome(context) {
+    Future.delayed(const Duration(seconds: 3), () {
+      if(FirebaseAuth.instance.currentUser != null) {
+        GoRouter.of(context).go(AppRouter.homeView);
+      } else {
+        GoRouter.of(context).go(AppRouter.loginView);
+      }
     });
   }
 
-  void _initSlidingAnimation() {
-    _animationController = AnimationController(
+  void slidingAnimate() {
+    animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _slidingAnimation = Tween<Offset>(
-      begin: const Offset(0, 3),
-      end: Offset.zero,
-    ).animate(_animationController);
-    _animationController.forward();
+    slidingAnimation =
+        Tween<Offset>(begin: const Offset(0, 3), end: Offset.zero)
+            .animate(animationController);
+    animationController.forward();
   }
 }

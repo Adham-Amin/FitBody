@@ -135,7 +135,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                 color: kPrimeColor,
                 title: 'Have an account? Log in',
                 onTap: () {
-                  GoRouter.of(context).push(AppRouter.loginView);
+                  GoRouter.of(context).pushReplacement(AppRouter.loginView);
                 },
               ),
               SizedBox(height: 24 * screenHeight),

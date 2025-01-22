@@ -1,5 +1,6 @@
 import 'package:fitbody/constants.dart';
 import 'package:fitbody/core/function/auth.dart';
+import 'package:fitbody/core/utils/app_router.dart';
 import 'package:fitbody/core/utils/styles.dart';
 import 'package:fitbody/core/widgets/custom_button.dart';
 import 'package:fitbody/core/widgets/skip_button.dart';
@@ -135,7 +136,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 color: kPrimeColor,
                 title: 'Don’t have an account? Join us',
                 onTap: () {
-                  GoRouter.of(context).pop();
+                  GoRouter.of(context).pushReplacement(AppRouter.regiterView);
                 },
               ),
               SizedBox(height: 24 * screenHeight),
