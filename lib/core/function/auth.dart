@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitbody/core/utils/app_router.dart';
@@ -12,6 +14,7 @@ Future<void> authentication({
   required BuildContext ctx,
   required String? name,
   required int? age,
+  required String? gender
 }) async {
   try {
     showDialog(
@@ -36,6 +39,7 @@ Future<void> authentication({
         'Age': age,
         'Email': email,
         'Password': pass,
+        'Gender': gender,
       });
     }
 

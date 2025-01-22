@@ -2,14 +2,34 @@ import 'package:fitbody/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class GenderSelection extends StatefulWidget {
-  const GenderSelection({super.key});
+  const GenderSelection({
+    super.key,
+    required this.initialGender,
+    required this.onChanged,
+  });
+
+  final String initialGender;
+  final ValueChanged<String> onChanged;
 
   @override
   GenderSelectionState createState() => GenderSelectionState();
 }
 
 class GenderSelectionState extends State<GenderSelection> {
-  String? _selectedGender = 'Male'; // Default selection
+  late String selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedGender = widget.initialGender;
+  }
+
+  void _handleGenderChange(String? value) {
+    setState(() {
+      selectedGender = value!;
+    });
+    widget.onChanged(selectedGender);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +48,13 @@ class GenderSelectionState extends State<GenderSelection> {
               child: ListTile(
                 title: Text(
                   'Male',
-                  style: Styles.textLight16(context),
+                  style: Styles.textLight16(context)
+                      ,
                 ),
                 leading: Radio<String>(
                   value: 'Male',
-                  groupValue: _selectedGender,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedGender = value;
-                    });
-                  },
+                  groupValue: selectedGender,
+                  onChanged: _handleGenderChange,
                 ),
               ),
             ),
@@ -49,12 +66,8 @@ class GenderSelectionState extends State<GenderSelection> {
                 ),
                 leading: Radio<String>(
                   value: 'Female',
-                  groupValue: _selectedGender,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedGender = value;
-                    });
-                  },
+                  groupValue: selectedGender,
+                  onChanged: _handleGenderChange,
                 ),
               ),
             ),

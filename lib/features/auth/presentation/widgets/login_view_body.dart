@@ -10,23 +10,33 @@ import 'package:go_router/go_router.dart';
 
 class LoginViewBody extends StatefulWidget {
   const LoginViewBody({super.key});
+
   @override
   State<LoginViewBody> createState() => _LoginViewBodyState();
 }
 
 class _LoginViewBodyState extends State<LoginViewBody> {
+  final formKey = GlobalKey<FormState>();
+  String? email;
+  String? password;
+  bool obscureText = true;
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-
-  void submitAuth() {
+  void submit() async {
     FocusScope.of(context).unfocus();
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      authentication(isLogin: true, email: email, pass: password, ctx: context, name: null, age: null);
+      await authentication(
+        isLogin: true,
+        email: email!,
+        pass: password!,
+        ctx: context,
+        gender: null,
+        name: null,
+        age: null,
+      );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width / 375;
@@ -60,7 +70,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 height: 112 * screenHeight,
               ),
               TextFieldSign(
-                onSavevd: (p0) => email = p0!,
+                onSaved: (p0) => email = p0,
                 keyboardType: TextInputType.emailAddress,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
@@ -70,16 +80,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 height: 12 * screenHeight,
               ),
               TextFieldSign(
-                onSavevd: (p0) => password = p0!,
-                obscureText: true,
+                onSaved: (p0) => password = p0,
                 keyboardType: TextInputType.visiblePassword,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
                 hintText: 'Password',
+                obscureText: obscureText,
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
                   icon: Icon(
-                    Icons.visibility_off,
+                    obscureText ? Icons.visibility : Icons.visibility_off,
                   ),
                 ),
               ),
@@ -88,7 +102,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               ),
               CustomButton(
                 onTap: () {
-                  submitAuth();
+                  submit();
                 },
                 screenWidth: screenWidth,
                 title: 'Login',
@@ -119,11 +133,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               ),
               SkipButton(
                 color: kPrimeColor,
-                title: 'Don’t have an account? Sign up',
+                title: 'Don’t have an account? Join us',
                 onTap: () {
                   GoRouter.of(context).pop();
                 },
               ),
+              SizedBox(height: 24 * screenHeight),
             ],
           ),
         ),

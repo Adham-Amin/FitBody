@@ -1,3 +1,4 @@
+import 'package:fitbody/constants.dart';
 import 'package:fitbody/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -8,36 +9,33 @@ class TextFieldSign extends StatelessWidget {
     required this.screenHeight,
     required this.hintText,
     this.suffixIcon,
-    required this.keyboardType,
-    this.onSavevd,
-    this.obscureText,
+    this.onSaved,
+    this.keyboardType, this.obscureText = false,
   });
 
-  final void Function(String?)? onSavevd;
-  final TextInputType keyboardType;
+  final Function(String?)? onSaved;
   final double screenWidth;
   final double screenHeight;
   final String hintText;
   final Widget? suffixIcon;
+  final TextInputType? keyboardType;
   final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (value) => value!.isEmpty ? 'Enter your $hintText' : null,
-      onSaved: onSavevd,
-      cursorColor: Colors.black,
-      style: Styles.textLight16(context).copyWith(color: Colors.black),
+      validator: (value) => value!.isEmpty ? 'Field can\'t be empty' : null,
+      onSaved: onSaved,
       keyboardType: keyboardType,
-      obscureText: obscureText ?? false,
+      obscureText: obscureText!,
+      style: Styles.textLight16(context),
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        border: outlineBorder(),
-        enabledBorder: outlineBorder(),
+        border: _buildOutlineInputBorder(Colors.white),
+      enabledBorder: _buildOutlineInputBorder(Colors.white),
+      focusedBorder: _buildOutlineInputBorder(kPrimeColor, width: 2),
         hintText: hintText,
         suffixIcon: suffixIcon,
-        hintStyle: Styles.textLight16(context).copyWith(color: Colors.black),
+        hintStyle: Styles.textLight16(context),
         contentPadding: EdgeInsets.symmetric(
           horizontal: screenWidth * 24,
           vertical: screenHeight * 16,
@@ -46,9 +44,11 @@ class TextFieldSign extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder outlineBorder() {
+  OutlineInputBorder _buildOutlineInputBorder(Color color, {double width = 1}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: color, width: width),
     );
   }
+
 }

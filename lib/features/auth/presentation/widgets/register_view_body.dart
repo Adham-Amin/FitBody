@@ -12,23 +12,38 @@ import 'package:go_router/go_router.dart';
 class RegisterViewBody extends StatefulWidget {
   const RegisterViewBody({super.key});
 
-
   @override
   State<RegisterViewBody> createState() => _RegisterViewBodyState();
 }
 
 class _RegisterViewBodyState extends State<RegisterViewBody> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-  String name = '';
-  int age = 0;
+  String? email;
+  String? password;
+  String? name;
+  int? age;
+  bool obscureText = true;
+  String? selectedGender = 'Male';
 
-  void submitAuth() {
+  void submit() async {
     FocusScope.of(context).unfocus();
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      authentication(isLogin: false, email: email, pass: password, ctx: context, name: name, age: age);
+      if (age == null || age! <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please enter a valid age.")),
+        );
+        return;
+      }
+      await authentication(
+        isLogin: false,
+        email: email!,
+        pass: password!,
+        ctx: context,
+        name: name!,
+        age: age!,
+        gender: selectedGender!,
+      );
     }
   }
 
@@ -45,87 +60,77 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(
-                height: 152 * screenHeight,
-              ),
+              SizedBox(height: 152 * screenHeight),
               Text(
                 'Join us to start searching',
-                style: Styles.textMedium24(context)
-                    .copyWith(fontWeight: FontWeight.w600),
+                style: Styles.textMedium24(context).copyWith(fontWeight: FontWeight.w600),
               ),
-              SizedBox(
-                height: 8 * screenHeight,
-              ),
+              SizedBox(height: 8 * screenHeight),
               Text(
-                'You can search c ourse, apply course and find scholarship for abroad studies',
+                'You can search courses, apply for courses, and find scholarships for abroad studies',
                 style: Styles.textNormal14(context),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: 24 * screenHeight,
-              ),
+              SizedBox(height: 24 * screenHeight),
               TextFieldSign(
-                onSavevd: (p0) => name = p0!,
+                onSaved: (p0) => name = p0,
                 keyboardType: TextInputType.name,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
                 hintText: 'Name',
               ),
-              SizedBox(
-                height: 12 * screenHeight,
-              ),
+              SizedBox(height: 12 * screenHeight),
               TextFieldSign(
-                onSavevd: (p0) => email = p0!,
+                onSaved: (p0) => email = p0,
                 keyboardType: TextInputType.emailAddress,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
                 hintText: 'Email',
               ),
-              SizedBox(
-                height: 12 * screenHeight,
-              ),
+              SizedBox(height: 12 * screenHeight),
               TextFieldSign(
-                onSavevd: (p0) => password = p0!,
+                onSaved: (p0) => password = p0,
                 keyboardType: TextInputType.visiblePassword,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
                 hintText: 'Password',
+                obscureText: obscureText,
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
                   icon: Icon(
-                    Icons.visibility_off,
-                    color: Colors.black54,
+                    obscureText ? Icons.visibility : Icons.visibility_off,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 12 * screenHeight,
-              ),
+              SizedBox(height: 12 * screenHeight),
               TextFieldSign(
-                onSavevd: (p0) => age = int.parse(p0!),
+                onSaved: (p0) => age = int.tryParse(p0!),
                 keyboardType: TextInputType.number,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
                 hintText: 'Age',
               ),
-              SizedBox(
-                height: 22 * screenHeight,
-              ),
-              GenderSelection(),
-              SizedBox(
-                height: 40 * screenHeight,
-              ),
-              CustomButton(
-                onTap: () {
-                  submitAuth();
+              SizedBox(height: 22 * screenHeight),
+              GenderSelection(
+                initialGender: selectedGender ?? 'Male',
+                onChanged: (gender) {
+                  setState(() {
+                    selectedGender = gender;
+                  });
                 },
+              ),
+              SizedBox(height: 80 * screenHeight),
+              CustomButton(
+                onTap: submit,
                 screenWidth: screenWidth,
                 title: 'Sign up',
                 screenHeight: screenHeight,
               ),
-              SizedBox(
-                height: 12 * screenHeight,
-              ),
+              SizedBox(height: 12 * screenHeight),
               SkipButton(
                 color: kPrimeColor,
                 title: 'Have an account? Log in',
@@ -133,9 +138,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                   GoRouter.of(context).push(AppRouter.loginView);
                 },
               ),
-              SizedBox(
-                height: 46 * screenHeight,
-              ),
+              SizedBox(height: 24 * screenHeight),
             ],
           ),
         ),
