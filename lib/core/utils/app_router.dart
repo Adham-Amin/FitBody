@@ -1,5 +1,6 @@
 import 'package:fitbody/features/auth/presentation/pages/login_view.dart';
 import 'package:fitbody/features/auth/presentation/pages/register_view.dart';
+import 'package:fitbody/features/home/presentation/pages/home_view.dart';
 import 'package:fitbody/features/splash/presentation/pages/splash_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +22,10 @@ abstract class AppRouter {
       GoRoute(
         path: regiterView,
         builder: (context, state) => RegisterView(),
+      ),
+      GoRoute(
+        path: homeView,
+        builder: (context, state) => HomeView(),
       ),
     ],
   );
