@@ -17,7 +17,7 @@ class HomeViewBody extends StatelessWidget {
           TextButton.icon(
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              GoRouter.of(context).go(AppRouter.regiterView);
+              GoRouter.of(context).go(AppRouter.loginView);
             },
             label: Text('Logout', style: Styles.textNormal14(context)),
             icon: Icon(Icons.logout, color: Colors.red),
